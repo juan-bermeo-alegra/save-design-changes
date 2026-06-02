@@ -1,0 +1,14 @@
+{
+  "name": "save-design-changes",
+  "owner": {
+    "name": "Camilo Bermeo",
+    "email": "camilo.bermeo@alegra.com"
+  },
+  "plugins": [
+    {
+      "name": "safe-design-changes",
+      "source": "./plugins/safe-design-changes",
+      "description": "Cambios de front-end seguros para diseñadores/no-ingenieros con un agente de IA en proyectos que no conocen a fondo."
+    }
+  ]
+}

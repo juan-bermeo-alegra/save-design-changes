@@ -1,0 +1,9 @@
+{
+  "name": "safe-design-changes",
+  "description": "Cambios de front-end seguros para diseñadores/no-ingenieros con un agente de IA en proyectos que no conocen a fondo. Toca solo UI/texto, nunca config/datos/dinero/auth sin un ingeniero.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Camilo Bermeo",
+    "email": "camilo.bermeo@alegra.com"
+  }
+}
