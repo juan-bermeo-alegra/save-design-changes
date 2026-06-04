@@ -9,7 +9,7 @@ description: Use when a product designer or non-engineer asks an AI agent to mak
 
 Para **product designers (u otra persona no-ingeniera)** que hacen cambios de front-end con un agente de IA en un proyecto que **no conocen a fondo** y que puede estar en **producción** (usuarios reales).
 
-**Principio central:** descubrir cómo trabaja ESTE proyecto → entender antes de cambiar → tocar solo la capa de UI → imitar el código que ya existe → nunca tocar zonas peligrosas sin un ingeniero.
+**Principio central:** pensar antes de actuar → descubrir cómo trabaja ESTE proyecto → entender antes de cambiar → tocar solo la capa de UI → imitar el código que ya existe → hacer el cambio más simple posible → nunca tocar zonas peligrosas sin un ingeniero.
 
 Esta skill es **portable**: sirve para cualquier proyecto. No asume librerías ni framework. El agente los descubre cada vez.
 
@@ -23,7 +23,15 @@ Y: **el código que escribas debe verse como si lo hubiera escrito el equipo del
 
 Para CADA cambio, el agente sigue estos pasos. Sin saltarse ninguno.
 
-### 0. DESCUBRIR el proyecto (antes de todo)
+### 0. PENSAR (antes de tocar nada)
+**No actúes en automático.** Antes de cualquier herramienta o edit, detente y piensa:
+- ¿Qué pide REALMENTE la persona? ¿El cambio es visual/texto (zona segura) o toca lógica/datos (zona STOP)?
+- ¿Cuál es el camino MÁS simple? ¿Hay una opción más sencilla que la primera que se me ocurrió?
+- ¿Qué podría romperse? ¿Qué no sé todavía y debo averiguar antes?
+
+Si no tienes un plan claro de 1-2 frases, **no empieces.** Primero piensa, luego descubre, luego actúa.
+
+### 1. DESCUBRIR el proyecto (antes de todo)
 Nunca asumas el stack. Averígualo leyendo el proyecto:
 - `package.json` → framework, **librería de UI / design system**, formateadores, scripts de test/lint.
 - `CLAUDE.md`, `AGENTS.md`, `README.md`, `.cursor/`, `docs/` → convenciones que el equipo ya escribió. **Síguelas.**
@@ -33,22 +41,24 @@ Nunca asumas el stack. Averígualo leyendo el proyecto:
 
 Antes de editar, di en una frase: *"Este proyecto usa X (framework), Y (librería de UI), el texto se maneja con Z. Voy a seguir eso."*
 
-### 1. ENTENDER
+### 2. ENTENDER
 - Encuentra el archivo exacto y léelo (y 1-2 archivos vecinos similares como referencia).
-- Explica a la persona en **lenguaje simple** (sin jerga): qué hace este archivo y qué exactamente va a cambiar.
+- Explica a la persona en **lenguaje que un Product Designer entienda sin esfuerzo**: cero jerga técnica; si un término técnico es inevitable, tradúcelo con una analogía o ejemplo. Di **qué hace este archivo** y **qué exactamente va a cambiar**, como si se lo contaras a alguien que no programa.
+- Regla: si tu explicación necesita que la persona ya sepa de código para entenderla, **reescríbela más simple.**
 - Muestra un **antes / después** claro del fragmento.
 - Confirma que el cambio cae en una **Zona segura**. Si toca una **Zona STOP** → para y escala (ver "Cómo escalar").
 
-### 2. CONFIRMAR
+### 3. CONFIRMAR
 - Pide **OK explícito** antes de editar.
 - Si la persona no entiende qué hace el código, NO continúes: explícalo hasta que entienda o escala.
 
-### 3. CAMBIAR
-- Cambio **mínimo**. Sin refactors "de paso".
+### 4. CAMBIAR
+- Cambio **mínimo y lo más simple posible**. La solución sencilla casi siempre es la correcta.
+- **No sobre-ingenieres (no overengineer):** nada de abstracciones, capas, helpers genéricos, configs ni "preparar para el futuro" que el cambio no necesita HOY. Si dudas entre dos formas, elige la más corta y obvia.
 - **Imita el código vecino:** mismos componentes, mismo patrón de texto, mismos tokens/clases, mismo estilo de nombres. Reusa lo que ya existe antes de crear algo nuevo.
-- Un cambio a la vez.
+- Un cambio a la vez. Sin refactors "de paso".
 
-### 4. VERIFICAR (antes de decir "listo")
+### 5. VERIFICAR (antes de decir "listo")
 Usa los comandos que **ESTE proyecto** define (míralos en `package.json` → `scripts`). Típicamente:
 - Lint / formato (ej. `npm run lint`)
 - Tipos, si aplica (ej. `tsc --noEmit`)
@@ -124,6 +134,9 @@ Después de entregar el traspaso, el agente **se detiene** y espera. No insiste,
 | Texto hardcodeado donde el proyecto usa i18n | Usa el sistema de texto del proyecto. |
 | Color/tamaño con valor suelto (`#3b82f6`, `13px`) | Usa tokens/clases del design system existente. |
 | Crear componente desde cero | Reusa el de la librería del proyecto. |
+| Sobre-ingeniería: abstracciones/capas/configs que no se necesitan hoy | Haz lo más simple que resuelva el pedido. |
+| Empezar a editar sin un plan claro | Piensa 1-2 frases primero (paso 0). |
+| Explicar con jerga que el diseñador no entiende | Reescribe más simple, con analogías. |
 | Código que no se parece al del repo | Imita los archivos vecinos. |
 | Decir "listo" sin correr lint/tests | Verifica y reporta el resultado real. |
 | Confiar solo en lint+tipos tras tocar estilos | Corre el **build** — lint/tipos no compilan CSS/Tailwind. |
